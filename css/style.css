@@ -1,0 +1,18 @@
+body { color: white !important; background-image: url('../img/bg.png'); background-size: cover; font-family: 'Lato', sans-serif !important; }
+	.login-box { margin: 0 auto; margin-top: 50px; background: #0077D7; width:300px; height:550px; text-align: center; padding-top:80px; }
+		.login-form { margin-top: 50px; }
+		.forgot { margin-top: 50px; }
+			#link { font-weight: bold; text-decoration: underline; font-size: 14px; color: white !important; }
+			#link:hover { font-weight: bold; text-decoration: none; }
+		input[type=submit] { width:137px; height:37px; background-color: #ff9307; border-style: none; color: white; font-weight: bold; font-size: 14px; margin-top:30px;}
+		input[type=text] { width:246px; height:37px; background-color: white; border-style: none; font-size: 14px; text-align: center; font-weight: bold; color: #0078d7; margin-top:15px; }
+		input[type=text]::placeholder { color: #0078d7; }
+		input[type=password] { width:246px; height:37px; background-color: white; border-style: none; font-size: 14px; text-align: center; font-weight: bold; color: #0078d7; margin-top:15px; }
+		input[type=password]::placeholder { color: #0078d7; }
+		input[type=radio], input[type=checkbox] { display: none; }
+			.radio { display: inline-block; color: white; cursor: pointer; margin-bottom: 40px; margin-left: 20px;}
+    		.radio:before { content: ""; display: inline-block; width: 15px; height: 15px; vertical-align: middle; background-color: #ffffff; color: #14aa9e; border: none; border-radius: 25px; font-size: 18px; }
+		input[type=radio]:checked + .radio:before { content: "\2022"; font-size: 22px; line-height: 60%; color: #ff9307; }
+        	.radio span { padding-left: 5px; padding-right: 20px; }
+
+.info-box { color:white !important; background-color: #0068ba; width:318px; height:100%;  }
