@@ -15,35 +15,33 @@
 	<meta name="author" content="Jan Jędrzejak">
   	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	
- 
+		 <script>
+		 	$('.counter').each(function() {
+		  var $this = $(this),
+		      countTo = $this.attr('data-count');
+		  
+		  $({ countNum: $this.text()}).animate({
+		    countNum: countTo
+		  },
 
- <script>
- 	$('.counter').each(function() {
-  var $this = $(this),
-      countTo = $this.attr('data-count');
-  
-  $({ countNum: $this.text()}).animate({
-    countNum: countTo
-  },
+		  {
 
-  {
+		    duration: 8000,
+		    easing:'linear',
+		    step: function() {
+		      $this.text(Math.floor(this.countNum));
+		    },
+		    complete: function() {
+		      $this.text(this.countNum);
+		      //alert('finished');
+		    }
 
-    duration: 8000,
-    easing:'linear',
-    step: function() {
-      $this.text(Math.floor(this.countNum));
-    },
-    complete: function() {
-      $this.text(this.countNum);
-      //alert('finished');
-    }
+		  });  
+		  
+		  
 
-  });  
-  
-  
-
-});
- </script>
+		});
+		 </script>
 	<title>Buki - przyjazny dziennik elektroniczny</title>
 
 </head>
