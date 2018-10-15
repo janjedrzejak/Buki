@@ -15,7 +15,8 @@ body { color: white !important; background-image: url('../img/bg.png'); backgrou
     		.radio:before { content: ""; display: inline-block; width: 15px; height: 15px; vertical-align: middle; background-color: #ffffff; color: #14aa9e; border: none; border-radius: 25px; font-size: 18px; }
 		input[type=radio]:checked + .radio:before { content: "\2022"; font-size: 22px; line-height: 60%; color: #ff9307; }
         	.radio span { padding-left: 5px; padding-right: 20px; }
-
+		
+		.error { font-size: 32px; font-weight: bold; }
 	.body-dashboard { background-image: url('../img/bg2.png'); }
 	.header {width:100%;height:70px; background-color: #0078d7;}
 		.logo {margin-left:20px;position:relative;top:17px;}
