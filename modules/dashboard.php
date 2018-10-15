@@ -1,5 +1,5 @@
 <?php
-	if(!isset($_SESSION['logged'])) { header('Location:index.php'); }
+	if(!isset($_SESSION['logged'])) { header('Location:home'); }
 ?>
 
 <!DOCTYPE html>
@@ -57,7 +57,7 @@
 		<span class="name">Aleksandra Locha</span>
 		<span class="descryption">klasa strzyżenia jeży</span>
 		<div class="buttons">
-			<a href="?page=logout" class="button logout"><span class="link">wyloguj</span></a><br>
+			<a href="logout" class="button logout"><span class="link">wyloguj</span></a><br>
 			<a href="#" class="button edit"><span class="link">zmień dane</span></a>
 		</div>
 </div>

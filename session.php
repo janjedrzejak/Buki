@@ -27,7 +27,7 @@
 				$_SESSION['logged'] = true;
 				$_SESSION['login_type'] = $table_name;
 				$_SESSION['user_login'] = $result['login'];
-				header('Location: index.php?page=dashboard'); 
+				header('Location: dashboard'); 
 			} else { header('Location: index.php');  }
 
 	} else { header('Location: index.php'); }
