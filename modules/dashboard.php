@@ -8,7 +8,7 @@
 	<meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<meta name="robots" content="noindex">
-	<link rel="icon" href="img/favicon.png">
+	<link rel="icon" href="img/favicon.ico">
 	<link rel="stylesheet" href="css/style.css">
 	<link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">   
 	<meta name="author" content="Jan Jędrzejak">
@@ -54,8 +54,8 @@
 
 <div class="sidebar">
 		<img src="img/avatars/avatar000.png" class="avatar">
-		<span class="name">Aleksandra Locha</span>
-		<span class="descryption">klasa strzyżenia jeży</span>
+		<span class="name"><?php echo $_SESSION['student_name'];  ?></span>
+		<span class="descryption">klasa <?php echo $_SESSION['class'];  ?></span>
 		<div class="buttons">
 			<a href="logout" class="button logout"><span class="link">wyloguj</span></a><br>
 			<a href="#" class="button edit"><span class="link">zmień dane</span></a>
@@ -100,7 +100,7 @@
 			</div>
 			<div class="counter-item">
 				<span class="counter-title">Do końca roku<br>szkolnego pozostało:</span>
-				<div class="counter" data-count="125">0</div>
+				<div class="counter" data-count="<?php echo $_SESSION['day_to_end_year']; ?>">0</div>
   				<script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
     			<script  src="js/index.js"></script>
     			<span class="counter-caption">dni</span>
@@ -117,21 +117,21 @@
 	<div class="menu">
 		<div class="menu-list">
 			<div class="menu-item">
-				<span class="item-caption">Oceny</span>
+				<a href="#"><span class="item-caption">Oceny</span></a>
 				<img src="img/grade.png">
 			</div>
 			<div class="menu-item">
-				<span class="item-caption">Plan lekcji</span>
+				<a href="index.php?page=lesson_plan"><span class="item-caption">Plan lekcji</span></a>
 				<img src="img/day.png">
 			</div>
 			<div class="menu-item">
-				<span class="item-caption">Tok nauki</span>
+				<a href="#"><span class="item-caption">Tok nauki</span></a>
 			</div>
 			<div class="menu-item">
-				<span class="item-caption">Frekwencja</span>
+				<a href="#"><span class="item-caption">Frekwencja</span></a>
 			</div>
 			<div class="menu-item">
-				<span class="item-caption">Dokumenty</span>
+				<a href="#"><span class="item-caption">Dokumenty</span></a>
 			</div>
 
 		</div>

@@ -1,12 +1,13 @@
 <?php 
 	if(!isset($_SESSION['logged'])) { header('Location:index.php'); }
 ?>	
-	<form action="index.php?page=add_new_subject" method="POST">
+	 <form action="index.php?page=add_new_subject" method="POST">
 		<input type="text" name="nazwa" placeholder="">
 		<input type="submit" name="submit" value="dodaj">
 	</form>
+
 <?php
-	include('db/pdo.php');
+	 include('db/pdo.php');
 
 	if(isset($_POST['nazwa'])) {
 		$nazwa=htmlspecialchars($_POST['nazwa']);
@@ -19,6 +20,7 @@
 					} $last_id++;
 	$q = $pdo->query("INSERT INTO `subjects` (`id`, `name`) VALUES ('" . $last_id . "', '" . $nazwa . "')");
 }
-		
+	
+	
 
 ?>
