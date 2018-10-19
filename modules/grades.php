@@ -16,11 +16,14 @@
   	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	
 	<title>Buki - przyjazny dziennik elektroniczny</title>
-
+	<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+	<script> jQuery(document).ready(function($){
+	  		op = function(obj) {
+	    	$(obj).stop().slideToggle();
+    	};
+		}); </script>
 </head>
 <body class="body-dashboard">
-
-
 
 <div class="header">
 	<a href="dashboard" class="logo"><img src="img/logo.svg" width="134" height="36"></a>
@@ -37,23 +40,24 @@
 		<span class="descryption">klasa <?php echo $_SESSION['class'];  ?></span>
 		<div class="buttons">
 			<a href="logout" class="button logout"><span class="link">wyloguj</span></a><br>
-			<a href="#" class="button edit"><span class="link">zmień dane</span></a>
+			<a href="index.php?page=change_data" class="button edit"><span class="link">zmień dane</span></a>
 		</div>
 </div>
-<div class="contener" style="color:black;">
+<div class="contener">
 	<div class="news">
 		<div class="caption">
-			Plan lekcji
+			Oceny
 		</div>
 		<a href="dashboard"><img src="img/back.svg" class="back-link"></a>
-		<div class="lesson_plan">
-			<?php
-				show_lesson_plan($_SESSION['student_id']);
-			?>	
+		<div class="change-data-list">
+			<table id="change-data-table" cellspacing="0" cellpadding="0">
+			  <?php show_grades(); ?>
+			</table>
 		</div>
 	</div>
-
 	
+	
+	<div>
 </div>
 </body>
 </html>

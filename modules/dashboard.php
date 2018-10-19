@@ -1,5 +1,6 @@
 <?php
 	if(!isset($_SESSION['logged'])) { header('Location:home'); }
+	require("utilies/utilies.php");
 ?>
 
 <!DOCTYPE html>
@@ -46,19 +47,22 @@
 </head>
 <body class="body-dashboard">
 
-
-
 <div class="header">
-	<a class="logo"><img src="img/logo.svg" width="134" height="36"></a>
+	<a href="dashboard" class="logo"><img src="img/logo.svg" width="134" height="36"></a>
+	<div class="school-name">
+		<?php 
+			show_school_name(); 
+		?>
+	</div>
 </div>
 
 <div class="sidebar">
-		<img src="img/avatars/avatar000.png" class="avatar">
+		<img src="<?php show_student_avatar($_SESSION['student_id']); ?>" class="avatar">
 		<span class="name"><?php echo $_SESSION['student_name'];  ?></span>
 		<span class="descryption">klasa <?php echo $_SESSION['class'];  ?></span>
 		<div class="buttons">
 			<a href="logout" class="button logout"><span class="link">wyloguj</span></a><br>
-			<a href="#" class="button edit"><span class="link">zmień dane</span></a>
+			<a href="index.php?page=change_data" class="button edit"><span class="link">zmień dane</span></a>
 		</div>
 </div>
 <div class="contener">
@@ -117,7 +121,7 @@
 	<div class="menu">
 		<div class="menu-list">
 			<div class="menu-item">
-				<a href="#"><span class="item-caption">Oceny</span></a>
+				<a href="index.php?page=grades"><span class="item-caption">Oceny</span></a>
 				<img src="img/grade.png">
 			</div>
 			<div class="menu-item">

@@ -1,5 +1,4 @@
 <?php
-	
 	function show_lesson_plan($student) {
 		include('db/pdo.php');
 		echo '<table class="lesson_plan" cellspacing="0">';
@@ -47,7 +46,7 @@
 										while($result=$sqlll->fetch(PDO::FETCH_ASSOC)) {
 											$nazwa_przedmiotu = $result['name'];
 
-											echo '<span class="ceil">' . $nazwa_przedmiotu . ' - ' . '<span style="font-size:10px; font-weight:bold;">sala ' . $room .'</span></span>';
+											echo '<span class="ceil">' . $nazwa_przedmiotu . '<span class="ceil-small"> -sala ' . $room .'</span></span>';
 											
 										}
 										
@@ -62,6 +61,75 @@
 			}
 			echo '</tr></table>';
 		}
+	function show_student_name($student) {
+		include('db/pdo.php');
+		$q = $pdo->prepare("SELECT `student_name` FROM `students` WHERE `id` = '" . $student . "';");
+		$q->execute();
+		$result=$q->fetch();
+		echo $result['student_name'];
+	}
+	function show_student_adres($student) {
+		include('db/pdo.php');
+		$q = $pdo->prepare("SELECT `student_adres` FROM `students` WHERE `id` = '" . $student . "';");
+		$q->execute();
+		$result=$q->fetch();
+		echo $result['student_adres'];
+	}
+	function show_student_avatar($student) {
+		include('db/pdo.php');
+		$q = $pdo->prepare("SELECT `student_avatar` FROM `students` WHERE `id` = '" . $student . "';");
+		$q->execute();
+		$result=$q->fetch();
+		echo $result['student_avatar'];
+	}
+	function show_school_name() {
+		include('db/pdo.php');
+		$q = $pdo->prepare("SELECT `name` FROM `school`;");
+		$q->execute();
+		$result=$q->fetch();
+		echo $result['name'];
+	}
+	function show_grades() {
+		echo '<span style="color:black;">oceny</span>';
+	}
+	function change_adres($adres,$student_id,$password) {
+		include('../db/pdo.php');
+		$adres = htmlspecialchars($adres);
+		$template = "/^[-0-9A-Z_ s]+$/i";
+		$password = htmlspecialchars($password);
+			if(preg_match($template, $adres) && !empty($password)) { 
+				$password=md5($password);
+				$query = $pdo->prepare("SELECT * FROM `students` WHERE `id` = " . $student_id . " AND `password`='" . $password . "';");
+				$query->execute();
+				$doit = $query->rowCount();
+					if($doit==1) {
+						$query = $pdo->prepare("UPDATE `students` SET `student_adres` = '" . $adres . "' WHERE `students`.`id` = " . $student_id . ";");
+						$query->execute();
+						header('Location:../dashboard');
+					} else { header('Location:../dashboard'); }	
+			} else { header('Location:../dashboard'); }
+			
+	}
+	function change_password($student_id,$old_password,$new_password) {
+		include('../db/pdo.php');
 
-		//show_lesson_plan(34);
+		$old_password = htmlspecialchars($old_password);
+		$new_password = htmlspecialchars($new_password);
+
+			if(!empty($old_password) && !empty($new_password)) {
+				$old_password = md5($old_password);
+				$new_password = md5($new_password);
+
+					$query = $pdo->prepare("SELECT * FROM `students` WHERE `id` = " . $student_id . " AND `password`='" . $old_password . "';");
+					$query->execute();
+					$doit = $query->rowCount();
+						if($doit==1) {
+							$query = $pdo->prepare("UPDATE `students` SET `password` = '" . $new_password . "' WHERE `students`.`id` = " . $student_id . ";");
+							$query->execute();
+							header('Location:../dashboard');
+						} else { header('Location:../dashboard'); }
+			} else { header('Location:../dashboard'); }
+
+	}
+
 ?>

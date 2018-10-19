@@ -21,6 +21,7 @@ body { color: white !important; background-image: url('../img/bg.png'); backgrou
 	.body-dashboard { background-image: url('../img/bg2.png'); }
 	.header {width:100%;height:70px; background-color: #0078d7;}
 		.logo {margin-left:20px;position:relative;top:17px;}
+		.school-name { position:relative;top:25px; margin-right: 20px; float:right; }
 	
 	.sidebar {width:250px;height:100vh;background-color:#0068ba;float:left;margin:0 auto;text-align:center;}
 		.avatar { width: 104px; height: 104px; border-radius: 50px; margin:30px 0px 15px 0px; }
@@ -38,7 +39,14 @@ body { color: white !important; background-image: url('../img/bg.png'); backgrou
 			 	td.news-text, td.show {border-bottom: 1px solid #cce4f7;}
 			 	td.show img {width:30px;margin-right:10px;}
 			 	td.news-text {color:#0078d7;}
-
+		.change-data-list {width:530px;height:224;background-color: white;box-shadow: 0px 0px 8px rgba(0, 0, 0, .15);}
+		#change-data-table {text-align:center;font-size:16px;width:100%;height:224px;margin:0 auto;border:0;}
+			.change { display: none; background-color: #0078d7; height:180px; padding: 20px; text-align: center; }
+			.change span { font-size:12px; position: relative; bottom:10px; display: block;}
+			.change img { width: 60px; height: 60px; border-radius: 50px;  margin:0 auto; display: block;}
+			#change-data-table a { color:#0078d7; }
+			#change-data-table a:hover { font-weight: bold; }
+			#change-data-table td.date {background-color:#0078d7;padding:0px 5px 0px 5px;border-bottom: 1px solid #1e8be1; width:150px;}
 			img.back-link { width:20px; background-color:#0078d7; padding: 0 10px 0 10px;}
 		.lesson_plan { width:930px; font-size:16px; line-height: 2.5; text-align: center;}
 			.lesson_plan table { background-color: white; box-shadow: 0px 0px 8px rgba(0, 0, 0, .15);}
@@ -48,6 +56,7 @@ body { color: white !important; background-image: url('../img/bg.png'); backgrou
 			.lesson_plan td.days { color: white; background-color:#0078d7; border-bottom: 1px solid #1e8be1; width:100px;}
 			.ceil { background-color: #cce4f7; padding: 0; border: none; color: #0078d7;
     border-radius: 0px; display: inline-block; margin-top:1px; min-width:99%;  }
+    		.ceil-small { font-size:10px; font-weight:bold; }
 	 	.counters {width:560px;float:left; }
 	 		.counter-item{width:180px;height:180px;background-color:#ff9307;float:left;box-shadow: 0px 0px 8px rgba(0, 0, 0, .15);margin-right:5px; text-align: center; }
 	 		.counter { font-size:60px; font-weight: bold; }
@@ -62,13 +71,21 @@ body { color: white !important; background-image: url('../img/bg.png'); backgrou
 	 		.menu-item img {width:60px; height:60px; margin-top:20px;}
 	 	.caption {color:#0078d7; font-size: 18px; font-weight: bold; display: block; margin-bottom: 10px;}
 	 	
-	@media only screen and (min-width:1919px) {
+	@media only screen and (min-width:1920px) {
 		.news-list {width:600px;height:300px;background-color: white;box-shadow: 0px 0px 8px rgba(0, 0, 0, .15);}
 			 #news-table {text-align:center;font-size:20px;width:100%;height:180px;margin:0 auto;border:0;}
 			 td {height:100px;border:0;}
 			 td.show img {width:50px;margin-right:10px;}
-
 		.contener {width:1600px;height:90vh;float:left;padding:20px;}
+			img.back-link { width:20px; background-color:#0078d7; padding: 0 10px 0 10px;}
+		.lesson_plan { width:1500px; font-size:24px; line-height: 2.5; text-align: center;}
+			.lesson_plan table { background-color: white; box-shadow: 0px 0px 8px rgba(0, 0, 0, .15);}
+			.lesson_plan td.subject { padding:0px 0px 0px 0px; color:white; font-weight: normal; }
+			.lesson_plan td.hours { padding: 0px 0px 0px 0px; background-color:#0078d7; color: white; width:50px; }
+			.lesson_plan td.hours span { border-bottom: 1px solid #1e8be1; display:block; padding: 0px 15px 0px 15px; }
+			.lesson_plan td.days { color: white; background-color:#0078d7; border-bottom: 1px solid #1e8be1; width:100px;}
+			.ceil { background-color: #cce4f7; padding: 0; border: none; color: #0078d7;border-radius: 0px; display: inline-block; margin-top:1px; min-width:99%;  }
+    		.ceil-small { font-size:14px; font-weight:bold; }
 		.counters {width:930px;float:left;}
 	 		.counter-item{width:300px;height:300px;background-color:#ff9307;float:left;box-shadow: 0px 0px 8px rgba(0, 0, 0, .15);margin-right:5px; text-align: center; }
 	 		.counter { font-size:80px; font-weight: bold; }
@@ -84,6 +101,14 @@ body { color: white !important; background-image: url('../img/bg.png'); backgrou
 
 
 	@media only screen and (max-width:1220px) {
+		.lesson_plan { width:600px; font-size:10px; line-height: 2.5; text-align: center;}
+			.lesson_plan table { background-color: white; box-shadow: 0px 0px 8px rgba(0, 0, 0, .15);}
+			.lesson_plan td.subject { padding:0px 0px 0px 0px; color:white; font-weight: normal; }
+			.lesson_plan td.hours { padding: 0px 0px 0px 0px; background-color:#0078d7; color: white; font-size: 10px; }
+			.lesson_plan td.hours span { border-bottom: 1px solid #1e8be1; display:block; padding: 0px 15px 0px 15px; }
+			.lesson_plan td.days { color: white; background-color:#0078d7; border-bottom: 1px solid #1e8be1; width:100px;}
+			.ceil { background-color: #cce4f7; padding: 0; border: none; color: #0078d7;border-radius: 0px; display: inline-block; margin-top:1px; min-width:99%;  }
+    		.ceil-small { font-size:10px; font-weight:bold; }
 		.contener {width:600px;height:90vh;float:left;padding:20px;}
 	 	.news {margin-right:10px;}
 		.news-list {width:550px;height:180px;background-color: white;box-shadow: 0px 0px 8px rgba(0, 0, 0, .15);}
@@ -96,6 +121,13 @@ body { color: white !important; background-image: url('../img/bg.png'); backgrou
 	}
 
 	@media only screen and (max-width:890px) {
+		.lesson_plan { width:450px; font-size:8px; line-height: 5.0; text-align: center;}
+			.lesson_plan table { background-color: white; box-shadow: 0px 0px 8px rgba(0, 0, 0, .15);}
+			.lesson_plan td.subject { padding:0px 0px 0px 0px; color:white; font-weight: normal; }
+			.lesson_plan td.hours { padding: 0px 0px 0px 0px; background-color:#0078d7; color: white; font-size: 8px; }
+			.lesson_plan td.hours span { border-bottom: 1px solid #1e8be1; display:block; padding: 0px 0px 0px 0px; }
+			.ceil { background-color: #cce4f7; padding: 0; border: none; color: #0078d7;border-radius: 0px; display: inline-block; margin-top:1px; min-width:99%;  }
+    		.ceil-small { font-size:6px; font-weight:normal; }
 		.contener {max-width:62%;height:90vh;float:left;}
 		.news-list {width:465px;height:180px;background-color: white;box-shadow: 0px 0px 8px rgba(0, 0, 0, .15);}
 		.counter-item{width:150px;height:150px;background-color:#ff9307; display: block;box-shadow: 0px 0px 8px rgba(0, 0, 0, .15);margin-top:5px; text-align: center; }
@@ -108,6 +140,7 @@ body { color: white !important; background-image: url('../img/bg.png'); backgrou
 	
 	@media only screen and (max-width:768px) {
 		 .sidebar {height:100vh;}
+		.school-name { font-size: 14px; }
 		.contener {max-width:45%;height:90vh;float:left;}
     		.news {float:left;margin-right:10px; }
 		.news-list {width:100%;height:180px;background-color: white;box-shadow: 0px 0px 8px rgba(0, 0, 0, .15);}
@@ -136,6 +169,7 @@ body { color: white !important; background-image: url('../img/bg.png'); backgrou
 		body { background-color:#0077D7; background-image: none; }
 			.login-box { margin: 0 auto; margin-top: 0px; background: #0077D7; width:100%; height:auto; text-align: center; padding-top:80px; }
    	.sidebar {width:80px;height:100vh;background-color:#0068ba;float:left;margin:0 auto;text-align:center;}
+   	.school-name { font-size: 0; }
 		.avatar { width: 55px; height: 55px; border-radius: 50px; margin:30px 0px 15px 0px; }
 		.name { font-size: 20px; font-weight: bold; display:none;}
 		.descryption { font-size: 14px; font-weight: normal; display: none;margin-top:20px; }
@@ -145,6 +179,14 @@ body { color: white !important; background-image: url('../img/bg.png'); backgrou
 		.button:hover { text-decoration: none; font-weight: bold; color: white; }
 		.buttons {width:100%; margin:0px 0px 0px 0px; text-align:center;}
 		 	.buttons span {display:none;}
+		 .lesson_plan { width:250px; font-size:8px; line-height: 2.5; text-align: center;}
+			.lesson_plan table { background-color: white; box-shadow: 0px 0px 8px rgba(0, 0, 0, .15);}
+			.lesson_plan td.subject { padding:0px 0px 0px 0px; color:white; font-weight: normal; }
+			.lesson_plan td.hours { padding: 0px 0px 0px 0px; background-color:#0078d7; color: white; font-size: 8px; width:20%; }
+			.lesson_plan td.hours span { border-bottom: 1px solid #1e8be1; display:block; padding: 0px 0px 0px 0px; }
+			.lesson_plan td.days { color: white; background-color:#0078d7; border-bottom: 1px solid #1e8be1; height:auto;}
+			.ceil { background-color: #cce4f7; padding: 0; border: none; color: #0078d7;border-radius: 0px; display: inline-block; margin-top:1px; min-width:99%;  }
+    		.ceil-small { font-size:0px;} 
 		.contener {max-width:62%;height:90vh;float:left;}
     		.news {float:left;margin-right:10px; }
 		.news-list {width:100%;height:180px;background-color: white;box-shadow: 0px 0px 8px rgba(0, 0, 0, .15);}
