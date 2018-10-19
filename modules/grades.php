@@ -49,10 +49,8 @@
 			Oceny
 		</div>
 		<a href="dashboard"><img src="img/back.svg" class="back-link"></a>
-		<div class="change-data-list">
-			<table id="change-data-table" cellspacing="0" cellpadding="0">
-			  <?php show_grades(); ?>
-			</table>
+		<div class="grades">
+			  <?php show_grades($_SESSION['student_id']); ?>
 		</div>
 	</div>
 	

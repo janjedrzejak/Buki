@@ -89,9 +89,6 @@
 		$result=$q->fetch();
 		echo $result['name'];
 	}
-	function show_grades() {
-		echo '<span style="color:black;">oceny</span>';
-	}
 	function change_adres($adres,$student_id,$password) {
 		include('../db/pdo.php');
 		$adres = htmlspecialchars($adres);
@@ -131,5 +128,30 @@
 			} else { header('Location:../dashboard'); }
 
 	}
+	function show_grades($student_id) {
+		include('db/pdo.php');
 
+			$sql = $pdo->prepare("SELECT * FROM `subjects` ORDER BY `subjects`.`id` ASC");
+			$sql->execute();	
+			echo '<table>';
+			echo '<tr><td class="grades-name-col">przedmioty</td><td class="grades-name-col">oceny cząstkowe</td></tr>';
+					while($result=$sql->fetch(PDO::FETCH_ASSOC)) {
+						$nazwa_przedmiotu = $result['name'];
+						$subject_id = $result['id'];
+						echo '<tr>';
+						echo '<td class="grades-name-col">' . $nazwa_przedmiotu . '</td><td class="grades-col">';
+						//=========================================
+							$sqll= $pdo->prepare("SELECT * FROM `grades` WHERE `student_id` = " . $student_id . " AND `subject_id` = " . $subject_id . ""); 
+							$sqll->execute();
+								while($result=$sqll->fetch(PDO::FETCH_ASSOC)) {
+									$grade = $result['grade'];
+									$weight = $result['weight'];
+										if($weight==4) { $coloruj = "red"; } else { $coloruj="white"; }
+									echo '<span style="background-color:' . $coloruj . '">[' . $grade . ']</span>';
+								}
+						//=========================================
+						echo '</td></tr>';
+					}
+			echo '</table>';
+	}
 ?>
