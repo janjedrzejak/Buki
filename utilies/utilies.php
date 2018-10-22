@@ -351,13 +351,14 @@
 			$sql=$pdo->prepare("SELECT * FROM `messages` WHERE `id` = " . $id . " AND `student_id` = " . $student_id . " ORDER BY `id` ASC LIMIT 1");
 			$sql->execute();
 			$result=$sql->fetch();
-
+				$date = $result['date'];
 				$content = $result['content'];
 				$professor_id = $result['professor_id'];
 					echo '<table>';
 					echo '<tr>';
 					echo '<td class="module-name-col">';
-					echo 'wiadomość od ' . professor_id_to_name($professor_id) . '</td>';
+					echo $date . ' ';
+					echo professor_id_to_name($professor_id) . ' napisał wiadomość:</td>';
 					echo '</tr>';
 					echo '<tr>';
 					echo '<td class="module-col">' . $content .'</td>';
