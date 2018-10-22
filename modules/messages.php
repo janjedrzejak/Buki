@@ -46,11 +46,25 @@
 <div class="contener">
 	<div class="news">
 		<div class="caption">
-			Oceny
+			Wiadomości
 		</div>
-		<a href="dashboard"><img src="img/back.svg" class="back-link"></a>
+			<?php
+				if(isset($_GET['id']) && $_GET['id']<=10000 && $_GET['id']>=0) {
+					echo '<a href="index.php?page=messages"><img src="img/back.svg" class="back-link"></a>';
+				} else {
+					echo '<a href="dashboard"><img src="img/back.svg" class="back-link"></a>';
+				}
+			?>
+		
 		<div class="module">
-			  <?php show_grades($_SESSION['student_id']); ?>
+			  <?php 
+			  		if(isset($_GET['id']) && $_GET['id']<=10000 && $_GET['id']>=0) {
+			  			$id = htmlspecialchars($_GET['id']);
+			  			show_student_message($_SESSION['student_id'], $id);
+			  		} else {
+			  			show_student_messages($_SESSION['student_id']);
+			  		}
+			  ?>
 		</div>
 	</div>
 	

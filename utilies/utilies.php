@@ -45,6 +45,14 @@
 			default: echo 'b/z';
 		}
 	}
+	function professor_id_to_name($id) {
+		include('db/pdo.php');
+		$sql = $pdo->prepare("SELECT * FROM `professors` WHERE `id` = '" . $id . "'");
+		$sql->execute();
+		$result=$sql->fetch();
+			$name=$result['professor_name'];
+		return $name;
+	}
 	function show_hour_start_lesson($student_id) {
 		include('db/pdo.php');
 			$today = date("Y-m-d"); 
@@ -247,18 +255,18 @@
 			$sql->execute();	
 			echo '<table>';
 			echo '<tr>';
-			echo '<td class="grades-name-col">przedmioty</td>';
-			echo '<td class="grades-name-col">oceny cząstkowe</td>';
-			echo '<td class="grades-name-col">średnia ocen</td>';
-			echo '<td class="grades-name-col">ocena końcowa</td>';
+			echo '<td class="module-name-col">przedmioty</td>';
+			echo '<td class="module-name-col">oceny cząstkowe</td>';
+			echo '<td class="module-name-col">średnia ocen</td>';
+			echo '<td class="module-name-col">ocena końcowa</td>';
 			echo '</tr>';
 
 					while($result=$sql->fetch(PDO::FETCH_ASSOC)) {
 						$nazwa_przedmiotu = $result['name'];
 						$subject_id = $result['id'];
 						echo '<tr>';
-						echo '<td class="grades-name-col">' . $nazwa_przedmiotu . '</td>';
-						echo '<td class="grades-col">';
+						echo '<td class="module-name-col">' . $nazwa_przedmiotu . '</td>';
+						echo '<td class="module-col">';
 						//=========================================
 							$sqll= $pdo->prepare("SELECT * FROM `grades` WHERE `student_id` = " . $student_id . " AND `subject_id` = " . $subject_id . ""); 
 							$sqll->execute();
@@ -301,5 +309,59 @@
 						echo '<img src="img/eye.png"></a></td>';
 						echo '</tr>';
 			}
+	}	
+	function cut_phrase($content,$count) { 
+	    $licz = strlen($content); 
+	    if ($licz>=$count) { 
+	  
+	        $tnij = substr($content,0,$count);  
+	        $txt = $tnij."..."; 
+	    } 
+	    else {
+	        $txt = $content; 
+	    } 
+	    return $txt; 
+	} 
+	function show_student_messages($student_id) {
+		include('db/pdo.php');
+
+			$sql = $pdo->prepare("SELECT * FROM `messages` WHERE `student_id` = '" .  $student_id . "' ORDER BY `messages`.`id` ASC");
+			$sql->execute();
+					echo '<table>';
+					echo '<tr>';
+					echo '<td class="module-name-col">Data wiadomości</td>';
+					echo '<td class="module-name-col">Nadawca</td>';
+					echo '<td class="module-name-col">Temat</td>'; 
+					echo '</tr>';
+			while($result=$sql->fetch(PDO::FETCH_ASSOC)) {
+				$id=$result['id'];
+				$date = $result['date'];
+				$content = $result['content'];
+				$professor_id = $result['professor_id'];
+					echo '<tr>';
+					echo '<td class="module-name-col">' . $date . '</td>';
+					echo '<td class="module-col">' . professor_id_to_name($professor_id) . '</td>';
+					echo '<td class="module-col"><a href="index.php?page=messages&id=' . $id . '">' . cut_phrase($content,40) . '</a></td>';
+					echo '</tr>';
+			}
+					echo '</table>';
+	}
+	function show_student_message($student_id, $id) {
+		include('db/pdo.php');
+			$sql=$pdo->prepare("SELECT * FROM `messages` WHERE `id` = " . $id . " AND `student_id` = " . $student_id . " ORDER BY `id` ASC LIMIT 1");
+			$sql->execute();
+			$result=$sql->fetch();
+
+				$content = $result['content'];
+				$professor_id = $result['professor_id'];
+					echo '<table>';
+					echo '<tr>';
+					echo '<td class="module-name-col">';
+					echo 'wiadomość od ' . professor_id_to_name($professor_id) . '</td>';
+					echo '</tr>';
+					echo '<tr>';
+					echo '<td class="module-col">' . $content .'</td>';
+					echo '</tr>';
+					echo '</table>';
 	}
 ?>

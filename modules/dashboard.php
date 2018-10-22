@@ -75,23 +75,6 @@
 				<?php
 					show_news($_SESSION['student_id']);
 				?>
-			  <!--
-			  <tr>
-			    <td class="date">12 paź. 2018</td>
-			    <td class="news-text">Dodano ocenę do przedmiotu</td>
-			    <td class="show"><a href="#"><img src="img/eye.png"></a></td>
-			  </tr>
-			  <tr>
-			    <td class="date">12 paź. 2018</td>
-			    <td class="news-text">Dodano ocenę do przedmiotu</td>
-			    <td class="show"><a href="#"><img src="img/eye.png"></a></td>
-			  </tr>
-			  <tr>
-			    <td class="date">12 paź. 2018</td>
-			    <td class="news-text">Dodano ocenę do przedmiotu</td>
-			    <td class="show"><a href="#"><img src="img/eye.png"></a></td>
-			  </tr>
-			-->
 			</table>
 		</div>
 	</div>
@@ -138,7 +121,7 @@
 				<img src="img/day.png">
 			</div>
 			<div class="menu-item">
-				<a href="#"><span class="item-caption">Tok nauki</span></a>
+				<a href="index.php?page=messages"><span class="item-caption">Wiadomości</span></a>
 			</div>
 			<div class="menu-item">
 				<a href="#"><span class="item-caption">Frekwencja</span></a>
