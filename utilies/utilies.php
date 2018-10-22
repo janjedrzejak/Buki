@@ -1,4 +1,116 @@
 <?php
+	function lesson_start_hour($hour) {
+		switch($hour) {
+			case 1: echo '8<span class="blink">:</span>00</span>';
+				break;
+			case 2: echo '8<span class="blink">:</span>50</span>';
+				break;
+			case 3: echo '9<span class="blink">:</span>45</span>';
+				break;
+			case 4: echo '10<span class="blink">:</span>40</span>';
+				break;
+			case 5: echo '11<span class="blink">:</span>40</span>';
+				break;
+			case 6: echo '12<span class="blink">:</span>40</span>';
+				break;
+			case 7: echo '13<span class="blink">:</span>40</span>';
+				break;
+			case 8: echo '14<span class="blink">:</span>30</span>';
+				break;
+			case 9: echo '15<span class="blink">:</span>30</span>';
+				break;
+			default: echo 'b/z';
+		}
+	}
+	function lesson_end_hour($hour) {
+		switch($hour) {
+			case 1: echo '8<span class="blink">:</span>45</span>';
+				break;
+			case 2: echo '9<span class="blink">:</span>35</span>';
+				break;
+			case 3: echo '10<span class="blink">:</span>30</span>';
+				break;
+			case 4: echo '11<span class="blink">:</span>25</span>';
+				break;
+			case 5: echo '12<span class="blink">:</span>25</span>';
+				break;
+			case 6: echo '13<span class="blink">:</span>25</span>';
+				break;
+			case 7: echo '14<span class="blink">:</span>25</span>';
+				break;
+			case 8: echo '15<span class="blink">:</span>15</span>';
+				break;
+			case 9: echo '16<span class="blink">:</span>15</span>';
+				break;
+			default: echo 'b/z';
+		}
+	}
+	function show_hour_start_lesson($student_id) {
+		include('db/pdo.php');
+			$today = date("Y-m-d"); 
+			$week_day_number = date("N",strtotime($today)) + 1;
+				if($week_day_number==8) { $week_day_number = 1; }
+				$all_subject_per_day = $pdo->prepare("SELECT * FROM `subject_date` WHERE `subject_day` = " . $week_day_number . " ORDER BY `subject_hour` ASC");
+				$all_subject_per_day->execute();
+				$count = $all_subject_per_day->rowCount();
+				if($count!=0) {
+					while($result=$all_subject_per_day->fetch(PDO::FETCH_ASSOC)) {
+						$id_of_subject_date = $result['id'];
+						$start_hour = $result['subject_hour'];
+
+							$student_subjects_date = $pdo->prepare("SELECT * FROM `students_record_subject` WHERE `student_id` = '" . $student_id . "' ORDER BY `id_date` ASC");
+							$student_subjects_date->execute();
+
+							while($result=$student_subjects_date->fetch(PDO::FETCH_ASSOC)) {
+								$id_date = $result['id_date'];
+								$start_date = 0;
+								if($id_date == $id_of_subject_date) {
+									$start_date = 1; break;
+								}
+							} if(!empty($start_date)) { break; }	
+						//echo '<span style="color:black;">' . $id_of_subject_date . ' </span>'; 
+					}
+					// echo $id_date;
+					$first_subject_per_day = $pdo->prepare("SELECT * FROM `subject_date` WHERE `id` = " . $id_date . " ORDER BY `subject_hour` ASC");
+					$first_subject_per_day->execute();
+						$result=$first_subject_per_day->fetch();
+						$start_hour = $result['subject_hour'];
+						lesson_start_hour($start_hour);
+					} else { echo 'b/z'; }
+	}
+	function show_hour_end_lesson($student_id) {
+		include('db/pdo.php');
+			$today = date("Y-m-d"); 
+			$week_day_number = date("N",strtotime($today)) + 1;
+			if($week_day_number==8) { $week_day_number = 1; }	
+				$all_subject_per_day = $pdo->prepare("SELECT * FROM `subject_date` WHERE `subject_day` = " . $week_day_number . " ORDER BY `subject_hour` DESC");
+				$all_subject_per_day->execute();
+				$count = $all_subject_per_day->rowCount();
+				if($count!=0) {
+					while($result=$all_subject_per_day->fetch(PDO::FETCH_ASSOC)) {
+						$id_of_subject_date = $result['id'];
+						$start_hour = $result['subject_hour'];
+
+							$student_subjects_date = $pdo->prepare("SELECT * FROM `students_record_subject` WHERE `student_id` = '" . $student_id . "' ORDER BY `id_date` ASC");
+							$student_subjects_date->execute();
+
+							while($result=$student_subjects_date->fetch(PDO::FETCH_ASSOC)) {
+								$id_date = $result['id_date'];
+								$start_date = 0;
+								if($id_date == $id_of_subject_date) {
+									$start_date = 1; break;
+								}
+							} if(!empty($start_date)) { break; }	
+						//echo '<span style="color:black;">' . $id_of_subject_date . ' </span>'; 
+					}
+					// echo $id_date;
+					$first_subject_per_day = $pdo->prepare("SELECT * FROM `subject_date` WHERE `id` = " . $id_date . " ORDER BY `subject_hour` ASC");
+					$first_subject_per_day->execute();
+						$result=$first_subject_per_day->fetch();
+						$start_hour = $result['subject_hour'];
+						lesson_end_hour($start_hour);
+					} else { echo 'b/z'; }
+	}
 	function show_lesson_plan($student) {
 		include('db/pdo.php');
 		echo '<table class="lesson_plan" cellspacing="0">';
@@ -25,7 +137,7 @@
 			echo '<td class="subject">';
 			for($i=1; $i<10; $i++) {
 					
-			$sql = $pdo->prepare("SELECT * FROM `students_record_subject` WHERE `student_id` = '" . $student . "' ORDER BY `student_id` ASC"); //pierwszy uczen 1A
+			$sql = $pdo->prepare("SELECT * FROM `students_record_subject` WHERE `student_id` = '" . $student . "' ORDER BY `student_id` ASC"); 
 			$sql->execute();	
 				while($result=$sql->fetch(PDO::FETCH_ASSOC)) {
 					$id_date = $result['id_date'];
@@ -176,10 +288,18 @@
 		include('db/pdo.php');
 			$sql = $pdo->prepare("SELECT * FROM `grades` WHERE `student_id` = " . $student_id . " ORDER BY `date` DESC LIMIT 3");
 			$sql->execute();
+				
 			while($result=$sql->fetch(PDO::FETCH_ASSOC)) {
 				$date = $result['date'];
 				$grade = $result['grade'];
-				
+					$time = strtotime($date);
+					$myFormatForView = date("Y-m-d", $time);
+						echo '<tr>';
+						echo '<td class="date">' . $myFormatForView . '</td>';
+						echo '<td class="news-text">dodano ocenę</td>';
+						echo '<td class="show"><a href="index.php?page=grades">';
+						echo '<img src="img/eye.png"></a></td>';
+						echo '</tr>';
 			}
 	}
 ?>

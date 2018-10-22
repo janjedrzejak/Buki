@@ -70,11 +70,12 @@
 		<div class="caption">
 			Aktualności
 		</div>
-		<?php
-			show_news($_SESSION['student_id']);
-		?>
 		<div class="news-list">
 			<table id="news-table" cellspacing="0" cellpadding="0">
+				<?php
+					show_news($_SESSION['student_id']);
+				?>
+			  <!--
 			  <tr>
 			    <td class="date">12 paź. 2018</td>
 			    <td class="news-text">Dodano ocenę do przedmiotu</td>
@@ -90,6 +91,7 @@
 			    <td class="news-text">Dodano ocenę do przedmiotu</td>
 			    <td class="show"><a href="#"><img src="img/eye.png"></a></td>
 			  </tr>
+			-->
 			</table>
 		</div>
 	</div>
@@ -101,9 +103,13 @@
 		<div class="counter-list">
 			<div class="counter-item">
 				<span class="counter-title">Jutro idziesz do szkoły na:</span>
- 				<span class="counter-caption-medium">8<span class="blink">:</span>00</span>
+ 				<span class="counter-caption-medium">
+ 					<?php show_hour_start_lesson($_SESSION['student_id']); ?>
+ 				</span>
  				<span class="counter-title">Jutro kończysz lekce o:</span>
- 				<span class="counter-caption-medium">15<span class="blink">:</span>45</span>
+ 				<span class="counter-caption-medium">
+ 					<?php show_hour_end_lesson($_SESSION['student_id']); ?>
+ 				</span>
 			</div>
 			<div class="counter-item">
 				<span class="counter-title">Do końca roku<br>szkolnego pozostało:</span>
