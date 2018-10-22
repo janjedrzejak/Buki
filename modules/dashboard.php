@@ -70,6 +70,9 @@
 		<div class="caption">
 			Aktualności
 		</div>
+		<?php
+			show_news($_SESSION['student_id']);
+		?>
 		<div class="news-list">
 			<table id="news-table" cellspacing="0" cellpadding="0">
 			  <tr>

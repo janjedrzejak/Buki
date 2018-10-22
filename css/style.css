@@ -74,8 +74,11 @@ body { color: white !important; background-image: url('../img/bg.png'); backgrou
 	 		.grades table { text-align:center;font-size:12px;width:100%;margin:0 auto;border:0;}
 			.grades td {height:40px;border:0;}
 			.grades td.grades-name-col { background-color:#0078d7;padding:0px 5px 0px 5px;border-bottom: 1px solid #1e8be1; color:white;}
-			.grades td.grades-col {color:#0078d7; border-bottom: 1px solid #cce4f7; font-size:14px; width:100%; text-align: left;}
-
+			.grades td.grades-col { border-bottom: 1px solid #cce4f7;  width:100%; text-align: center;}
+			.grade { color:#0078d7; font-size:18px; }
+					.tip { position: relative; display: inline-block; }
+					.tip .tiptext { visibility: hidden; width: 120px; background-color: #0078d7; color: #fff;text-align: center; border-radius: 6px; padding: 5px 5px; position: absolute; z-index: 1;}	
+					.tip:hover .tiptext { visibility: visible; }
 
 	@media only screen and (min-width:1920px) {
 		.news-list {width:600px;height:300px;background-color: white;box-shadow: 0px 0px 8px rgba(0, 0, 0, .15);}

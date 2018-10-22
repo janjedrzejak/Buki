@@ -134,24 +134,52 @@
 			$sql = $pdo->prepare("SELECT * FROM `subjects` ORDER BY `subjects`.`id` ASC");
 			$sql->execute();	
 			echo '<table>';
-			echo '<tr><td class="grades-name-col">przedmioty</td><td class="grades-name-col">oceny cząstkowe</td></tr>';
+			echo '<tr>';
+			echo '<td class="grades-name-col">przedmioty</td>';
+			echo '<td class="grades-name-col">oceny cząstkowe</td>';
+			echo '<td class="grades-name-col">średnia ocen</td>';
+			echo '<td class="grades-name-col">ocena końcowa</td>';
+			echo '</tr>';
+
 					while($result=$sql->fetch(PDO::FETCH_ASSOC)) {
 						$nazwa_przedmiotu = $result['name'];
 						$subject_id = $result['id'];
 						echo '<tr>';
-						echo '<td class="grades-name-col">' . $nazwa_przedmiotu . '</td><td class="grades-col">';
+						echo '<td class="grades-name-col">' . $nazwa_przedmiotu . '</td>';
+						echo '<td class="grades-col">';
 						//=========================================
 							$sqll= $pdo->prepare("SELECT * FROM `grades` WHERE `student_id` = " . $student_id . " AND `subject_id` = " . $subject_id . ""); 
 							$sqll->execute();
+							$g_summary = $w_summary = 0;
 								while($result=$sqll->fetch(PDO::FETCH_ASSOC)) {
 									$grade = $result['grade'];
 									$weight = $result['weight'];
-										if($weight==4) { $coloruj = "red"; } else { $coloruj="white"; }
-									echo '<span style="background-color:' . $coloruj . '">[' . $grade . ']</span>';
+										$x = ($grade * $weight);
+										$g_summary = $g_summary + $x; 
+										$w_summary = $w_summary + $weight;
+									echo '<div class="tip">';
+									echo '<span class="grade">[' . $grade . ']</span>';
+									echo '<span class="tiptext">waga oceny: [' . $weight . ']</span>';
+									echo '</div>';
 								}
+								if($w_summary != 0) { $weighted_score = $g_summary / $w_summary; } else { $weighted_score = '?'; }
 						//=========================================
-						echo '</td></tr>';
+						echo '</td>';
+						echo '<td class="grades-col"><span class="grade">[' . $weighted_score . ']</span></td>';
+						echo '<td>?</td>';
+						echo '</tr>';
+
 					}
 			echo '</table>';
+	}
+	function show_news($student_id) {
+		include('db/pdo.php');
+			$sql = $pdo->prepare("SELECT * FROM `grades` WHERE `student_id` = " . $student_id . " ORDER BY `date` DESC LIMIT 3");
+			$sql->execute();
+			while($result=$sql->fetch(PDO::FETCH_ASSOC)) {
+				$date = $result['date'];
+				$grade = $result['grade'];
+				
+			}
 	}
 ?>
