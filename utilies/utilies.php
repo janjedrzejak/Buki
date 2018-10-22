@@ -365,7 +365,25 @@
 					echo '</tr>';
 					echo '</table>';
 	}
+	function absence_id_to_name($id) {
+		include('db/pdo.php');
+			$sql=$pdo->prepare("SELECT * FROM `buki`.`type_of_absence` WHERE `id` = '" . $id . "'");
+			$sql->execute();
+				$result=$sql->fetch();
+				$name=$result['name'];
+			return $name;
+	}
 	function show_student_frequency($student_id) {
-		
+		include('db/pdo.php');
+			$sql=$pdo->prepare("SELECT * FROM `frequency` WHERE `student_id` = '" . $student_id . "'");
+			$sql->execute();
+				while($result=$sql->fetch(PDO::FETCH_ASSOC)) {	
+					$date=$result['date'];
+					$professor_id=$result['professor_id'];
+					$subject_date_id=$result['subject_date_id'];
+					$type_of_absence=$result['type_of_absence'];
+					$type_of_absence=absence_id_to_name($type_of_absence);
+						//wysietlanie wszystkich nieobecnosci
+				}
 	}
 ?>

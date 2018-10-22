@@ -127,7 +127,7 @@
 				<a href="index.php?page=frequency"><span class="item-caption">Frekwencja</span></a>
 			</div>
 			<div class="menu-item">
-				<a href="#"><span class="item-caption">Dokumenty</span></a>
+				<a href="index.php?page=documents"><span class="item-caption">Dokumenty</span></a>
 			</div>
 
 		</div>
