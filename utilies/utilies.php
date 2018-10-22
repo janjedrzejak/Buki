@@ -365,4 +365,7 @@
 					echo '</tr>';
 					echo '</table>';
 	}
+	function show_student_frequency($student_id) {
+		
+	}
 ?>
