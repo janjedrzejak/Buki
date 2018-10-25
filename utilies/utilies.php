@@ -181,12 +181,20 @@
 			}
 			echo '</tr></table>';
 		}
-	function show_student_name($student) {
+	function show_name($student, $login_type) {
 		include('db/pdo.php');
-		$q = $pdo->prepare("SELECT `student_name` FROM `students` WHERE `id` = '" . $student . "';");
+		if($login_type == 'students') {
+			$name = 'student_name';
+			$table = 'students';
+		}
+		if($login_type == 'professors') {
+			$name = 'professor_name';
+			$table = 'professors';
+		}
+		$q = $pdo->prepare("SELECT `" . $name . "` FROM `" . $table . "` WHERE `id` = '" . $student . "';");
 		$q->execute();
 		$result=$q->fetch();
-		echo $result['student_name'];
+		echo $result[$name];
 	}
 	function show_student_adres($student) {
 		include('db/pdo.php');
@@ -195,13 +203,24 @@
 		$result=$q->fetch();
 		echo $result['student_adres'];
 	}
-	function show_student_avatar($student) {
+	
+	function show_avatar($student,$login_type) {
 		include('db/pdo.php');
-		$q = $pdo->prepare("SELECT `student_avatar` FROM `students` WHERE `id` = '" . $student . "';");
-		$q->execute();
-		$result=$q->fetch();
-		echo $result['student_avatar'];
+		if($login_type == 'students') {
+			$avatar = 'student_avatar';
+			$table = 'students';
+		}
+		if($login_type == 'professors') {
+			$avatar = 'professor_avatar';
+			$table = 'professors';
+		}
+			$q = $pdo->prepare("SELECT `" . $avatar . "` FROM `" . $table . "` WHERE `id` = '" . $student . "';");
+			$q->execute();
+			$result=$q->fetch();
+			
+			echo $result[$avatar];
 	}
+
 	function show_school_name() {
 		include('db/pdo.php');
 		$q = $pdo->prepare("SELECT `name` FROM `school`;");
@@ -377,13 +396,41 @@
 		include('db/pdo.php');
 			$sql=$pdo->prepare("SELECT * FROM `frequency` WHERE `student_id` = '" . $student_id . "'");
 			$sql->execute();
+			echo '<table>';
+			echo '<tr>';
+			echo '<td class="module-name-col">Data</td>';
+			echo '<td class="module-name-col">Przedmiot</td>';
+			echo '<td class="module-name-col">Typ nieobecności</td>';
+			echo '</tr>';
 				while($result=$sql->fetch(PDO::FETCH_ASSOC)) {	
 					$date=$result['date'];
 					$professor_id=$result['professor_id'];
 					$subject_date_id=$result['subject_date_id'];
 					$type_of_absence=$result['type_of_absence'];
 					$type_of_absence=absence_id_to_name($type_of_absence);
-						//wysietlanie wszystkich nieobecnosci
-				}
+
+					$sqll=$pdo->prepare("SELECT * FROM `buki`.`subject_date` WHERE `id` = " . $subject_date_id . " ORDER BY `subject_day` ASC");
+					$sqll->execute();
+						$result=$sqll->fetch();
+						$subject_id=$result['subject_id'];
+
+					$sqll=$pdo->prepare("SELECT * FROM `buki`.`subjects` WHERE `id` = " . $subject_id ." ORDER BY `id` ASC");
+					$sqll->execute();
+						$result=$sqll->fetch();
+						$subject_name=$result['name'];
+
+					echo '<tr>';
+						echo '<td class="module-col">';
+							echo $date;
+						echo '</td>';
+						echo '<td class="module-col">';
+							echo $subject_name;
+						echo '</td>';
+						echo '<td class="module-col">';
+							echo $type_of_absence;
+						echo '</td>';
+					echo '</tr>';
+				}		
+			echo '</table>';	
 	}
 ?>

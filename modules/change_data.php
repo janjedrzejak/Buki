@@ -1,6 +1,5 @@
 <?php
 	if(!isset($_SESSION['logged'])) { header('Location:home'); }
-	require("utilies/utilies.php");
 ?>
 
 <!DOCTYPE html>
@@ -35,7 +34,7 @@
 </div>
 
 <div class="sidebar">
-		<img src="<?php show_student_avatar($_SESSION['student_id']); ?>" class="avatar">
+		<img src="<?php show_avatar($_SESSION['student_id'], $login_type); ?>" class="avatar">
 		<span class="name"><?php echo $_SESSION['student_name'];  ?></span>
 		<span class="descryption">klasa <?php echo $_SESSION['class'];  ?></span>
 		<div class="buttons">
@@ -62,7 +61,7 @@
 					</div>
 					<div id="change_avatar" class="change">
 				 		<span>W tym obszarze możesz zmienić avatar.</span>
-				 		<img src="<?php show_student_avatar($_SESSION['student_id']);?>" >
+				 		<img src="<?php show_avatar($_SESSION['student_id'], $login_type);?>" >
 						<form enctype="multipart/form-data" method="post" action="utilies/change_data_script.php">
 	            			<label for="fileToUpload" class="inputfile_label">wybierz plik</label>
 	            			<input type="file" name="fileToUpload" id="fileToUpload"  class="inputfile" /> 

@@ -1,6 +1,5 @@
 <?php
-	if(!isset($_SESSION['logged'])) { header('Location:home'); }
-	require("utilies/utilies.php");
+	if(!isset($_SESSION['logged'])) { header('Location:home'); }	
 ?>
 
 <!DOCTYPE html>
@@ -57,9 +56,9 @@
 </div>
 
 <div class="sidebar">
-		<img src="<?php show_student_avatar($_SESSION['student_id']); ?>" class="avatar">
-		<span class="name"><?php echo $_SESSION['student_name'];  ?></span>
-		<span class="descryption">klasa <?php echo $_SESSION['class'];  ?></span>
+		<img src="<?php show_avatar($_SESSION['student_id'], $login_type); ?>" class="avatar">
+		<span class="name"><?php show_name($_SESSION['student_id'], $login_type)  ?></span>
+		<span class="descryption"><?php echo $_SESSION['class'];  ?></span>
 		<div class="buttons">
 			<a href="logout" class="button logout"><span class="link">wyloguj</span></a><br>
 			<a href="index.php?page=change_data" class="button edit"><span class="link">zmień dane</span></a>

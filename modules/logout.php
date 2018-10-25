@@ -3,5 +3,5 @@
 	$_SESSION = array();
 	session_destroy();
 
-	header('Location:home');
+	header('Location:index.php?page=home');
 ?>

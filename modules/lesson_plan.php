@@ -1,6 +1,5 @@
 <?php
 	if(!isset($_SESSION['logged'])) { header('Location:home'); }
-	require("utilies/utilies.php");
 ?>
 
 <!DOCTYPE html>
@@ -32,7 +31,7 @@
 </div>
 
 <div class="sidebar">
-		<img src="<?php show_student_avatar($_SESSION['student_id']); ?>" class="avatar">
+		<img src="<?php show_avatar($_SESSION['student_id'], $login_type); ?>" class="avatar">
 		<span class="name"><?php echo $_SESSION['student_name'];  ?></span>
 		<span class="descryption">klasa <?php echo $_SESSION['class'];  ?></span>
 		<div class="buttons">
