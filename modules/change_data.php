@@ -35,11 +35,11 @@
 
 <div class="sidebar">
 		<img src="<?php show_avatar($_SESSION['student_id'], $login_type); ?>" class="avatar">
-		<span class="name"><?php echo $_SESSION['student_name'];  ?></span>
-		<span class="descryption">klasa <?php echo $_SESSION['class'];  ?></span>
+		<span class="name"><?php show_name($_SESSION['student_id'], $login_type)  ?></span>
+		<span class="descryption"><?php echo $_SESSION['class'];  ?></span>
 		<div class="buttons">
 			<a href="logout" class="button logout"><span class="link">wyloguj</span></a><br>
-			<a href="#" class="button edit"><span class="link">zmień dane</span></a>
+			<a href="index.php?page=change_data" class="button edit"><span class="link">zmień dane</span></a>
 		</div>
 </div>
 <div class="contener">
@@ -53,7 +53,7 @@
 				 	<div id="change_adres" class="change">
 				 		<span>W tym obszarze możesz dokonać zmiany dotychczasowego adresu zamieszkania.</span>
 						<form action="utilies/change_data_script.php" method="POST">
-							<input type="text" name="adres" placeholder="<?php show_student_adres($_SESSION['student_id']); ?>">
+							<input type="text" name="adres" placeholder="<?php show_student_adres($_SESSION['student_id'], $login_type); ?>">
 							<input type="password" name="password" placeholder="podaj hasło">
 							<input type="hidden" name="operation" value="change_adres">
 							<input type="submit" name="submit" value="zmień">

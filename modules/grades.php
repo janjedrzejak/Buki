@@ -35,8 +35,8 @@
 
 <div class="sidebar">
 		<img src="<?php show_avatar($_SESSION['student_id'], $login_type); ?>" class="avatar">
-		<span class="name"><?php echo $_SESSION['student_name'];  ?></span>
-		<span class="descryption">klasa <?php echo $_SESSION['class'];  ?></span>
+		<span class="name"><?php show_name($_SESSION['student_id'], $login_type)  ?></span>
+		<span class="descryption"><?php echo $_SESSION['class'];  ?></span>
 		<div class="buttons">
 			<a href="logout" class="button logout"><span class="link">wyloguj</span></a><br>
 			<a href="index.php?page=change_data" class="button edit"><span class="link">zmień dane</span></a>
@@ -49,7 +49,50 @@
 		</div>
 		<a href="dashboard"><img src="img/back.svg" class="back-link"></a>
 		<div class="module">
-			  <?php show_grades($_SESSION['student_id']); ?>
+			  <?php 
+			  	switch ($login_type) {
+			  		case 'students':
+			  				show_grades($_SESSION['student_id']); 
+			  			break;
+			  		
+			  		case 'professors':
+			  				if(isset($_POST['students_class'])) {
+								$students_class=htmlspecialchars($_POST['students_class']);
+							} else { $students_class='1A'; }
+
+			  				echo "<div class='grades-professor-title'>";
+							echo "<form action='index.php?page=grades' method='POST'>";
+							echo "<select name='students_class'>";
+							
+								$sql_all_class=$pdo->prepare("SELECT DISTINCT `class_name` FROM `students` WHERE 1");
+								$sql_all_class->execute();
+								while($result=$sql_all_class->fetch()) {
+									$class_name=$result['class_name'];
+									if($class_name==$students_class) { $selected='selected'; } else $selected=NULL;
+									echo '<option value=' . $class_name . ' ' .  $selected . ' >klasa ';
+									echo $class_name;
+									echo '</option>';
+								}
+							echo "</select>";
+							echo "<input type='submit' value='wczytaj'>";
+							echo "</form>";
+							echo "</div>";
+
+
+							
+
+							$sql_all_students_of_class=$pdo->prepare("SELECT * FROM `students` WHERE `class_name` LIKE '" . $students_class . "'");
+							$sql_all_students_of_class->execute();
+							$i=0;
+								while($result=$sql_all_students_of_class->fetch()) {
+									$student_name = $result['student_name']; 
+									$i++;
+									echo $i . ' ' . $student_name . '<br>';
+								}
+			  			break;
+			  	}
+			  	
+			  ?>
 		</div>
 	</div>
 	

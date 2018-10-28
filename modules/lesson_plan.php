@@ -32,11 +32,11 @@
 
 <div class="sidebar">
 		<img src="<?php show_avatar($_SESSION['student_id'], $login_type); ?>" class="avatar">
-		<span class="name"><?php echo $_SESSION['student_name'];  ?></span>
-		<span class="descryption">klasa <?php echo $_SESSION['class'];  ?></span>
+		<span class="name"><?php show_name($_SESSION['student_id'], $login_type)  ?></span>
+		<span class="descryption"><?php echo $_SESSION['class'];  ?></span>
 		<div class="buttons">
 			<a href="logout" class="button logout"><span class="link">wyloguj</span></a><br>
-			<a href="#" class="button edit"><span class="link">zmień dane</span></a>
+			<a href="index.php?page=change_data" class="button edit"><span class="link">zmień dane</span></a>
 		</div>
 </div>
 <div class="contener" style="color:black;">
@@ -47,7 +47,7 @@
 		<a href="dashboard"><img src="img/back.svg" class="back-link"></a>
 		<div class="lesson_plan">
 			<?php
-				show_lesson_plan($_SESSION['student_id']);
+				show_lesson_plan($_SESSION['student_id'], $login_type);
 			?>	
 		</div>
 	</div>

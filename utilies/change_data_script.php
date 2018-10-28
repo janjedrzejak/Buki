@@ -5,7 +5,7 @@ require('utilies.php');
 	$operation = $_POST['operation'];
 		switch($operation) {
 			case 'change_adres':
-				change_adres($_POST['adres'], $_SESSION['student_id'], $_POST['password']);
+				change_adres($_POST['adres'], $_SESSION['student_id'], $_POST['password'],$_SESSION['login_type']);
 			break;
 			case 'change_avatar':
 				require_once('ImageManipulator.php');
@@ -38,8 +38,17 @@ require('utilies.php');
 					        echo 'Done ...';
 					        $newName = $newNamePrefix . $_FILES['fileToUpload']['name'];
 					            //===============================================================================================
+					        $login_type = $_SESSION['login_type'];
+					        if($login_type == 'students') {
+								$avatar = 'student_avatar';
+								$table = 'students';
+							}
+							if($login_type == 'professors') {
+								$avatar = 'professor_avatar';
+								$table = 'professors';
+							}
 					               try {
-					                    $sql_query = $pdo->prepare("UPDATE `students` SET `student_avatar` = 'img/avatars/" . $newName . "' WHERE `students`.`id` = " . $_SESSION['student_id'] . ";"); //edytuj rekord
+					                    $sql_query = $pdo->prepare("UPDATE `" . $table . "` SET `" . $avatar . "` = 'img/avatars/" . $newName . "' WHERE `" . $table . "`.`id` = " . $_SESSION['student_id'] . ";"); //edytuj rekord
 					                    $sql_query->execute();
 
 					               } catch(PDOException $e) {
@@ -54,7 +63,7 @@ require('utilies.php');
 					}
 			break;
 			case 'change_password':
-				change_password($_SESSION['student_id'], $_POST['old_password'], $_POST['new_password']);
+				change_password($_SESSION['student_id'], $_POST['old_password'], $_POST['new_password'],$_SESSION['login_type']);
 			break;
 			default:
 				header('Location:../dashboard');

@@ -79,6 +79,9 @@ body { color: white !important; background-image: url('../img/bg.png'); backgrou
 					.tip { position: relative; display: inline-block; }
 					.tip .tiptext { visibility: hidden; width: 120px; background-color: #0078d7; color: #fff;text-align: center; border-radius: 6px; padding: 5px 5px; position: absolute; z-index: 1;}	
 					.tip:hover .tiptext { visibility: visible; }
+			.grades-professor-title { background-color:#0078d7; color:white;padding:0px 15px 15px 15px; }
+			select { width:100px; height:37px;  font-size: 14px; background-color:#ff9307; color:white; font-weight: bold; border:none; margin-right:5px;  }
+
 					
 	@media only screen and (min-width:1920px) {
 		.news-list {width:600px;height:300px;background-color: white;box-shadow: 0px 0px 8px rgba(0, 0, 0, .15);}

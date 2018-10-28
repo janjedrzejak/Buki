@@ -53,11 +53,14 @@
 			$name=$result['professor_name'];
 		return $name;
 	}
-	function show_hour_start_lesson($student_id) {
+	function show_hour_start_lesson($student_id,$login_type) {
 		include('db/pdo.php');
-			$today = date("Y-m-d"); 
-			$week_day_number = date("N",strtotime($today)) + 1;
-				if($week_day_number==8) { $week_day_number = 1; }
+		$today = date("Y-m-d"); 
+		$week_day_number = date("N",strtotime($today)) + 1;
+		if($week_day_number==8) { $week_day_number = 1; }
+
+		switch($login_type) {
+			case 'students':
 				$all_subject_per_day = $pdo->prepare("SELECT * FROM `subject_date` WHERE `subject_day` = " . $week_day_number . " ORDER BY `subject_hour` ASC");
 				$all_subject_per_day->execute();
 				$count = $all_subject_per_day->rowCount();
@@ -85,12 +88,31 @@
 						$start_hour = $result['subject_hour'];
 						lesson_start_hour($start_hour);
 					} else { echo 'b/z'; }
+			break;
+			case 'professors':
+				$all_subject_per_day_of_professor = $pdo->prepare("SELECT * FROM `subject_date` WHERE `professor_id` = " . $student_id . " AND `subject_day` =" . $week_day_number . " ORDER BY `subject_date`.`subject_hour` ASC");
+				$all_subject_per_day_of_professor->execute();
+				$count = $all_subject_per_day_of_professor->rowCount();
+				if($count!=0) {
+					$result=$all_subject_per_day_of_professor->fetch();
+					$start_hour = $result['subject_hour'];
+					lesson_start_hour($start_hour);
+					} else { echo 'b/z'; }
+
+			break;
+		}
+			
+				
+				
 	}
-	function show_hour_end_lesson($student_id) {
+	function show_hour_end_lesson($student_id,$login_type) {
 		include('db/pdo.php');
 			$today = date("Y-m-d"); 
 			$week_day_number = date("N",strtotime($today)) + 1;
-			if($week_day_number==8) { $week_day_number = 1; }	
+			if($week_day_number==8) { $week_day_number = 1; }
+
+			switch($login_type) {
+			case 'students':	
 				$all_subject_per_day = $pdo->prepare("SELECT * FROM `subject_date` WHERE `subject_day` = " . $week_day_number . " ORDER BY `subject_hour` DESC");
 				$all_subject_per_day->execute();
 				$count = $all_subject_per_day->rowCount();
@@ -118,8 +140,20 @@
 						$start_hour = $result['subject_hour'];
 						lesson_end_hour($start_hour);
 					} else { echo 'b/z'; }
+				break;
+				case 'professors':
+					$all_subject_per_day_of_professor = $pdo->prepare("SELECT * FROM `subject_date` WHERE `professor_id` = " . $student_id . " AND `subject_day` =" . $week_day_number . " ORDER BY `subject_date`.`subject_hour` DESC");
+					$all_subject_per_day_of_professor->execute();
+					$count = $all_subject_per_day_of_professor->rowCount();
+					if($count!=0) {
+						$result=$all_subject_per_day_of_professor->fetch();
+						$end_hour = $result['subject_hour'];
+						lesson_end_hour($end_hour);
+						} else { echo 'b/z'; }
+				break;
+			}
 	}
-	function show_lesson_plan($student) {
+	function show_lesson_plan($student,$login_type) {
 		include('db/pdo.php');
 		echo '<table class="lesson_plan" cellspacing="0">';
 		echo '<tr>
@@ -141,46 +175,66 @@
 				<span>14:30 - 15:15</span>
 				<span>15:30 - 16:15</span>
 			  </td>';
-		for($day=1;$day<=4;$day++) {
-			echo '<td class="subject">';
-			for($i=1; $i<10; $i++) {
-					
-			$sql = $pdo->prepare("SELECT * FROM `students_record_subject` WHERE `student_id` = '" . $student . "' ORDER BY `student_id` ASC"); 
-			$sql->execute();	
-				while($result=$sql->fetch(PDO::FETCH_ASSOC)) {
-					$id_date = $result['id_date'];
-					//echo $id_date . '<br>';	
+			  for($day=1;$day<=4;$day++) {
+					echo '<td class="subject">';
+					for($i=1; $i<10; $i++) {	
 
-								$sqll = $pdo->prepare("SELECT * FROM `buki`.`subject_date` WHERE `id` = '" . $id_date . "' AND `subject_day` = '" . $day . "' AND `subject_hour`='" . $i . "'"); //poniedzialek i pierwsza godzina
-								$sqll->execute();
-								
-								//	$count = $sqll->rowCount();
-									
-								while($result=$sqll->fetch(PDO::FETCH_ASSOC)) {
-									$subjectid = $result['subject_id']; //id przedmiotow w poniedzialek
-									$room = $result['room'];
-									$professor = $result['professor_id'];
-										$sqlll= $pdo->prepare("SELECT * FROM `buki`.`subjects` WHERE `id` = '" . $subjectid . "'");
-										$sqlll->execute();
-										
-										while($result=$sqlll->fetch(PDO::FETCH_ASSOC)) {
-											$nazwa_przedmiotu = $result['name'];
+			  			switch($login_type) {
+						case 'students':
 
-											echo '<span class="ceil">' . $nazwa_przedmiotu . '<span class="ceil-small"> -sala ' . $room .'</span></span>';
+							$sql = $pdo->prepare("SELECT * FROM `students_record_subject` WHERE `student_id` = '" . $student . "' ORDER BY `student_id` ASC"); 
+							$sql->execute();	
+							while($result=$sql->fetch(PDO::FETCH_ASSOC)) {
+									$id_date = $result['id_date'];
+
+										$sqll = $pdo->prepare("SELECT * FROM `buki`.`subject_date` WHERE `id` = '" . $id_date . "' AND `subject_day` = '" . $day . "' AND `subject_hour`='" . $i . "'"); 
+										$sqll->execute();
 											
+										while($result=$sqll->fetch(PDO::FETCH_ASSOC)) {
+											$subjectid = $result['subject_id'];
+											$room = $result['room'];
+											$professor = $result['professor_id'];
+												$sqlll= $pdo->prepare("SELECT * FROM `buki`.`subjects` WHERE `id` = '" . $subjectid . "'");
+												$sqlll->execute();
+												
+												while($result=$sqlll->fetch(PDO::FETCH_ASSOC)) {
+													$nazwa_przedmiotu = $result['name'];
+
+													echo '<span class="ceil">' . $nazwa_przedmiotu . '<span class="ceil-small"> -sala ' . $room .'</span></span>';
+													
+												}
+												
+												
 										}
-										
-										
-								}
-					}	
-					echo '<br>';
+							}	
+							echo '<br>';
+				
+						break;
+						case 'professors':
+							$sql = $pdo->prepare("SELECT * FROM `subject_date` WHERE `professor_id` = " . $student . " AND `subject_day` = " . $day . " AND `subject_hour` = " . $i . " ORDER BY `subject_hour` ASC"); 
+							$sql->execute();
+							while($result=$sql->fetch(PDO::FETCH_ASSOC)) {
+								$subjectid = $result['subject_id'];
+								$room = $result['room'];
+									$sqlll= $pdo->prepare("SELECT * FROM `buki`.`subjects` WHERE `id` = '" . $subjectid . "'");
+												$sqlll->execute();
+												
+												while($result=$sqlll->fetch(PDO::FETCH_ASSOC)) {
+													$nazwa_przedmiotu = $result['name'];
+
+													echo '<span class="ceil">' . $nazwa_przedmiotu . '<span class="ceil-small"> -sala ' . $room .'</span></span>';
+													
+												}
+							}
+							echo '<br>';
+						break;
+						}	
+					}
+
+					echo '</td>';
 				}
-
-			echo '</td>';
-
-			}
 			echo '</tr></table>';
-		}
+	}
 	function show_name($student, $login_type) {
 		include('db/pdo.php');
 		if($login_type == 'students') {
@@ -196,12 +250,20 @@
 		$result=$q->fetch();
 		echo $result[$name];
 	}
-	function show_student_adres($student) {
+	function show_student_adres($student,$login_type) {
 		include('db/pdo.php');
-		$q = $pdo->prepare("SELECT `student_adres` FROM `students` WHERE `id` = '" . $student . "';");
+		if($login_type == 'students') {
+			$adres = 'student_adres';
+			$table = 'students';
+		}
+		if($login_type == 'professors') {
+			$adres = 'professor_adres';
+			$table = 'professors';
+		}
+		$q = $pdo->prepare("SELECT `" . $adres . "` FROM `" . $table . "` WHERE `id` = '" . $student . "';");
 		$q->execute();
 		$result=$q->fetch();
-		echo $result['student_adres'];
+		echo $result[$adres];
 	}
 	
 	function show_avatar($student,$login_type) {
@@ -228,39 +290,54 @@
 		$result=$q->fetch();
 		echo $result['name'];
 	}
-	function change_adres($adres,$student_id,$password) {
+	function change_adres($adres,$student_id,$password,$login_type) {
 		include('../db/pdo.php');
-		$adres = htmlspecialchars($adres);
+		$user_adres = htmlspecialchars($adres);
 		$template = "/^[-0-9A-Z_ s]+$/i";
 		$password = htmlspecialchars($password);
+		if($login_type == 'students') {
+			$adres = 'student_adres';
+			$table = 'students';
+		}
+		if($login_type == 'professors') {
+			$adres = 'professor_adres';
+			$table = 'professors';
+		}
 			if(preg_match($template, $adres) && !empty($password)) { 
 				$password=md5($password);
-				$query = $pdo->prepare("SELECT * FROM `students` WHERE `id` = " . $student_id . " AND `password`='" . $password . "';");
+				$query = $pdo->prepare("SELECT * FROM `" . $table . "` WHERE `id` = " . $student_id . " AND `password`='" . $password . "';");
 				$query->execute();
 				$doit = $query->rowCount();
 					if($doit==1) {
-						$query = $pdo->prepare("UPDATE `students` SET `student_adres` = '" . $adres . "' WHERE `students`.`id` = " . $student_id . ";");
+						$query = $pdo->prepare("UPDATE `" . $table . "` SET `" . $adres . "` = '" . $user_adres . "' WHERE `" . $table . "`.`id` = " . $student_id . ";");
 						$query->execute();
 						header('Location:../dashboard');
 					} else { header('Location:../dashboard'); }	
 			} else { header('Location:../dashboard'); }
 			
 	}
-	function change_password($student_id,$old_password,$new_password) {
+	function change_password($student_id,$old_password,$new_password,$login_type) {
 		include('../db/pdo.php');
 
 		$old_password = htmlspecialchars($old_password);
 		$new_password = htmlspecialchars($new_password);
 
+		if($login_type == 'students') {
+			$table = 'students';
+		}
+		if($login_type == 'professors') {
+			$table = 'professors';
+		}
+
 			if(!empty($old_password) && !empty($new_password)) {
 				$old_password = md5($old_password);
 				$new_password = md5($new_password);
 
-					$query = $pdo->prepare("SELECT * FROM `students` WHERE `id` = " . $student_id . " AND `password`='" . $old_password . "';");
+					$query = $pdo->prepare("SELECT * FROM `" . $table . "` WHERE `id` = " . $student_id . " AND `password`='" . $old_password . "';");
 					$query->execute();
 					$doit = $query->rowCount();
 						if($doit==1) {
-							$query = $pdo->prepare("UPDATE `students` SET `password` = '" . $new_password . "' WHERE `students`.`id` = " . $student_id . ";");
+							$query = $pdo->prepare("UPDATE `" . $table . "` SET `password` = '" . $new_password . "' WHERE `" . $table . "`.`id` = " . $student_id . ";");
 							$query->execute();
 							header('Location:../dashboard');
 						} else { header('Location:../dashboard'); }

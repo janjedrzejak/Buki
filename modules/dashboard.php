@@ -86,11 +86,11 @@
 			<div class="counter-item">
 				<span class="counter-title">Jutro idziesz do szkoły na:</span>
  				<span class="counter-caption-medium">
- 					<?php show_hour_start_lesson($_SESSION['student_id']); ?>
+ 					<?php show_hour_start_lesson($_SESSION['student_id'], $login_type); ?>
  				</span>
  				<span class="counter-title">Jutro kończysz lekce o:</span>
  				<span class="counter-caption-medium">
- 					<?php show_hour_end_lesson($_SESSION['student_id']); ?>
+ 					<?php show_hour_end_lesson($_SESSION['student_id'], $login_type); ?>
  				</span>
 			</div>
 			<div class="counter-item">
@@ -101,7 +101,7 @@
     			<span class="counter-caption">dni</span>
 			</div>
 			<div class="counter-item">
-				<span class="counter-title">Twoja frekwencja<br>wynosi:</span>
+				<span class="counter-title"><?php echo 'Twoja frekwencja<br>wynosi:'; ?></span>
 				<div class="counter" data-count="80">0</div>
   				<script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
     			<script  src="js/index.js"></script>
