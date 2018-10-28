@@ -80,15 +80,37 @@
 
 
 							
-
+							echo "<table>";
 							$sql_all_students_of_class=$pdo->prepare("SELECT * FROM `students` WHERE `class_name` LIKE '" . $students_class . "'");
 							$sql_all_students_of_class->execute();
 							$i=0;
+							echo '<td class="module-name-col">numer</td>';
+							echo '<td class="module-name-col">imię i nazwisko</td>';
+							echo '<td class="module-name-col">oceny</td>';
+							echo '<td class="module-name-col">wystaw ocenę</td>';
 								while($result=$sql_all_students_of_class->fetch()) {
 									$student_name = $result['student_name']; 
+									$student_id = $result['id'];
+
 									$i++;
-									echo $i . ' ' . $student_name . '<br>';
+
+									echo "<tr>";
+									echo '<td class="module-col">' . $i . '</td><td class="module-col">' .  $student_name . '</td>';
+
+									$sql_show_grades = $pdo->prepare("SELECT * FROM `grades` WHERE `professor_id` = " . $_SESSION['student_id'] . " AND `student_id` = " . $student_id . " ORDER BY `date` DESC");
+									$sql_show_grades->execute();
+									echo '<td class="module-col-grade">';
+									while($result=$sql_show_grades->fetch()) {
+										$grade = $result['grade'];
+										$weight = $result['weight'];
+										
+										echo '[' . $grade . ']';
+										
+									}
+									echo '<td>';
+									echo "</tr>";
 								}
+							echo "</table>";
 			  			break;
 			  	}
 			  	
