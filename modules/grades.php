@@ -50,70 +50,11 @@
 		<a href="dashboard"><img src="img/back.svg" class="back-link"></a>
 		<div class="module">
 			  <?php 
-			  	switch ($login_type) {
-			  		case 'students':
-			  				show_grades($_SESSION['student_id']); 
-			  			break;
-			  		
-			  		case 'professors':
-			  				if(isset($_POST['students_class'])) {
-								$students_class=htmlspecialchars($_POST['students_class']);
-							} else { $students_class='1A'; }
-
-			  				echo "<div class='grades-professor-title'>";
-							echo "<form action='index.php?page=grades' method='POST'>";
-							echo "<select name='students_class'>";
-							
-								$sql_all_class=$pdo->prepare("SELECT DISTINCT `class_name` FROM `students` WHERE 1");
-								$sql_all_class->execute();
-								while($result=$sql_all_class->fetch()) {
-									$class_name=$result['class_name'];
-									if($class_name==$students_class) { $selected='selected'; } else $selected=NULL;
-									echo '<option value=' . $class_name . ' ' .  $selected . ' >klasa ';
-									echo $class_name;
-									echo '</option>';
-								}
-							echo "</select>";
-							echo "<input type='submit' value='wczytaj'>";
-							echo "</form>";
-							echo "</div>";
-
-
-							
-							echo "<table>";
-							$sql_all_students_of_class=$pdo->prepare("SELECT * FROM `students` WHERE `class_name` LIKE '" . $students_class . "'");
-							$sql_all_students_of_class->execute();
-							$i=0;
-							echo '<td class="module-name-col">numer</td>';
-							echo '<td class="module-name-col">imię i nazwisko</td>';
-							echo '<td class="module-name-col">oceny</td>';
-							echo '<td class="module-name-col">wystaw ocenę</td>';
-								while($result=$sql_all_students_of_class->fetch()) {
-									$student_name = $result['student_name']; 
-									$student_id = $result['id'];
-
-									$i++;
-
-									echo "<tr>";
-									echo '<td class="module-col">' . $i . '</td><td class="module-col">' .  $student_name . '</td>';
-
-									$sql_show_grades = $pdo->prepare("SELECT * FROM `grades` WHERE `professor_id` = " . $_SESSION['student_id'] . " AND `student_id` = " . $student_id . " ORDER BY `date` DESC");
-									$sql_show_grades->execute();
-									echo '<td class="module-col-grade">';
-									while($result=$sql_show_grades->fetch()) {
-										$grade = $result['grade'];
-										$weight = $result['weight'];
-										
-										echo '[' . $grade . ']';
-										
-									}
-									echo '<td>';
-									echo "</tr>";
-								}
-							echo "</table>";
-			  			break;
-			  	}
-			  	
+			  	if(isset($_POST['students_class'])) {
+					$students_class=htmlspecialchars($_POST['students_class']);
+				} else { $students_class='1A'; }
+				
+				show_grades($_SESSION['student_id'],$login_type,$students_class); 	
 			  ?>
 		</div>
 	</div>

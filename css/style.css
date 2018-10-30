@@ -74,16 +74,19 @@ body { color: white !important; background-image: url('../img/bg.png'); backgrou
 	 		.module table { font-size:12px;width:100%;border:0;}
 			.module td {height:40px;border:0; text-align: center;width:auto; }
 			.module td.module-name-col { background-color:#0078d7;padding:0px 5px 0px 5px;border-bottom: 1px solid #1e8be1; color:white; width:auto; }
-			.module td.module-col { border-bottom: 1px solid #cce4f7; }
-			.module td.module-col-grade { width:60%;border-bottom: 1px solid #cce4f7; }
+			.module tr.module-name-col { background-color:#0078d7;padding:0px 5px 0px 5px;border-bottom: 1px solid #1e8be1; color:white; width:auto; }
+			.module td.module-col { border-bottom: 1px solid #cce4f7; width:15px; }
+			.module td.grade-cel { border-left: 1px solid #cce4f7; }
+			.module td.grade-cel:focus {  outline: 2px solid #ff9307; background-color: #efefef;  }
+			.module td.module-col-grade { border-bottom: 1px solid #cce4f7;}
 			.grade { color:#0078d7; font-size:18px; }
 					.tip { position: relative; display: inline-block; }
 					.tip .tiptext { visibility: hidden; width: 120px; background-color: #0078d7; color: #fff;text-align: center; border-radius: 6px; padding: 5px 5px; position: absolute; z-index: 1;}	
 					.tip:hover .tiptext { visibility: visible; }
-			.grades-professor-title { background-color:#0078d7; color:white; text-align: center; padding:5px 0px 5px 0px; }
+			.grades-professor-title { background-color:#0078d7; color:white; padding:5px 5px 5px 5px; }
 			select { width:100px; height:37px;  font-size: 14px; background-color:#ff9307; color:white; font-weight: bold; border:none; margin-right:5px;  }
-
-					
+			.student_grades { width:30px; }
+			.small_btn { width:80px !important;  }
 	@media only screen and (min-width:1920px) {
 		.news-list {width:600px;height:300px;background-color: white;box-shadow: 0px 0px 8px rgba(0, 0, 0, .15);}
 			 #news-table {text-align:center;font-size:20px;width:100%;height:180px;margin:0 auto;border:0;}

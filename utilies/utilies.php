@@ -344,49 +344,124 @@
 			} else { header('Location:../dashboard'); }
 
 	}
-	function show_grades($student_id) {
+	function show_grades($student_id,$login_type,$students_class) {
 		include('db/pdo.php');
 
-			$sql = $pdo->prepare("SELECT * FROM `subjects` ORDER BY `subjects`.`id` ASC");
-			$sql->execute();	
-			echo '<table>';
-			echo '<tr>';
-			echo '<td class="module-name-col">przedmioty</td>';
-			echo '<td class="module-name-col">oceny cząstkowe</td>';
-			echo '<td class="module-name-col">średnia ocen</td>';
-			echo '<td class="module-name-col">ocena końcowa</td>';
-			echo '</tr>';
+		switch ($login_type) {
+	  		case 'students':
+	  
+				$sql = $pdo->prepare("SELECT * FROM `subjects` ORDER BY `subjects`.`id` ASC");
+				$sql->execute();	
 
-					while($result=$sql->fetch(PDO::FETCH_ASSOC)) {
-						$nazwa_przedmiotu = $result['name'];
-						$subject_id = $result['id'];
-						echo '<tr>';
-						echo '<td class="module-name-col">' . $nazwa_przedmiotu . '</td>';
-						echo '<td class="module-col">';
-						//=========================================
-							$sqll= $pdo->prepare("SELECT * FROM `grades` WHERE `student_id` = " . $student_id . " AND `subject_id` = " . $subject_id . ""); 
-							$sqll->execute();
-							$g_summary = $w_summary = 0;
-								while($result=$sqll->fetch(PDO::FETCH_ASSOC)) {
+					echo '<table width="100%" cellspacing="0">';
+					echo '<tr class="module-name-col">';
+					echo '<td colspan="1" valign="middle">przedmioty</td>';
+					echo '<td colspan="16" valign="middle">oceny cząstkowe</td>';
+					echo '<td colspan="1" valign="middle">średnia ocen</td>';
+					echo '<td colspan="1" valign="middle">ocena końcowa</td>';
+					echo '</tr>';
+
+						while($result=$sql->fetch(PDO::FETCH_ASSOC)) {
+								$nazwa_przedmiotu = $result['name'];
+								$subject_id = $result['id'];
+
+								echo '<tr class="module-col">';
+								echo '<td class="module-col">' . $nazwa_przedmiotu . '</td>';
+
+								$sqll= $pdo->prepare("SELECT * FROM `grades` WHERE `student_id` = " . $student_id . " AND `subject_id` = " . $subject_id . ""); 
+								$sqll->execute();
+
+								$grade_sum=$weight_sum=0;
+								for($j=0; $j<16; $j++) {
+									echo '<td class="module-col grade-cel">';
+									
+									$result=$sqll->fetch();
 									$grade = $result['grade'];
 									$weight = $result['weight'];
-										$x = ($grade * $weight);
-										$g_summary = $g_summary + $x; 
-										$w_summary = $w_summary + $weight;
-									echo '<div class="tip">';
-									echo '<span class="grade">[' . $grade . ']</span>';
-									echo '<span class="tiptext">waga oceny: [' . $weight . ']</span>';
-									echo '</div>';
+										$grade_sum+=$grade*$weight;
+										$weight_sum+=$weight;
+									echo $grade;
+									
+									echo '</td>';
 								}
-								if($w_summary != 0) { $weighted_score = $g_summary / $w_summary; } else { $weighted_score = '?'; }
-						//=========================================
-						echo '</td>';
-						echo '<td class="grades-col"><span class="grade">[' . $weighted_score . ']</span></td>';
-						echo '<td>?</td>';
-						echo '</tr>';
+								if($weight_sum!=0) { $average=$grade_sum/$weight_sum; } else { $average='brak ocen'; }
+								echo '<td class="module-col grade-cel">'; 
+								echo $average;
+								echo '</td>';
+								echo '<td class="module-col grade-cel">?</td>';
+							}
 
-					}
-			echo '</table>';
+					echo '</table>';
+			break;
+			case 'professors':
+
+			  				echo "<div class='grades-professor-title'>";
+							echo "<form action='index.php?page=grades' method='POST'>";
+							echo "<select name='students_class'>";
+							
+								$sql_all_class=$pdo->prepare("SELECT DISTINCT `class_name` FROM `students` WHERE 1");
+								$sql_all_class->execute();
+								while($result=$sql_all_class->fetch()) {
+									$class_name=$result['class_name'];
+									if($class_name==$students_class) { $selected='selected'; } else $selected=NULL;
+									echo '<option value=' . $class_name . ' ' .  $selected . ' >klasa ';
+									echo $class_name;
+									echo '</option>';
+								}
+							echo "</select>";
+							echo "<input type='submit' value='wczytaj'>";
+							echo "</form>";
+							echo "</div>";
+
+
+							
+							echo '<table width="100%" cellspacing="0" >';
+							$sql_all_students_of_class=$pdo->prepare("SELECT * FROM `students` WHERE `class_name` LIKE '" . $students_class . "'");
+							$sql_all_students_of_class->execute();
+							$i=0;
+							echo '<td class="module-name-col" colspan="1">numer</td>';
+							echo '<td class="module-name-col" colspan="1">imię i nazwisko</td>';
+							echo '<td colspan="16" align="center" class="module-name-col">oceny cząstkowe</td>';
+							echo '<td class="module-name-col" colspan="1">średnia ocen</td>';
+							echo '<td class="module-name-col" colspan="1">proponowana ocena</td>';
+
+								while($result=$sql_all_students_of_class->fetch()) {
+									$student_name = $result['student_name']; 
+									$student_id = $result['id'];
+
+									$i++;
+
+									echo '<tr class="module-col">';
+									echo '<td class="module-col">' . $i . '</td><td class="module-col">' .  $student_name . '</td>';
+
+									$sql_show_grades = $pdo->prepare("SELECT * FROM `grades` WHERE `professor_id` = " . $_SESSION['student_id'] . " AND `student_id` = " . $student_id . " ORDER BY `date` DESC");
+									$sql_show_grades->execute();
+
+									$grade_sum=$weight_sum=0;
+									for($j=0; $j<16; $j++) {
+										echo '<td class="module-col grade-cel" contenteditable="true">';
+											
+										$result=$sql_show_grades->fetch();
+										$grade = $result['grade'];
+										$weight = $result['weight'];
+											$grade_sum+=$grade*$weight;
+											$weight_sum+=$weight;
+										echo $grade;
+									
+										echo '</td>';
+									}
+									if($weight_sum!=0) { $average=$grade_sum/$weight_sum; $roundAverage=round($average);} else { $average='-'; $roundAverage='-';}
+									echo '<td class="module-col grade-cel">';
+									echo $average;
+									echo '</td>';
+									echo '<td class="module-col grade-cel">';
+									echo $roundAverage;
+									echo '</td>';
+									echo "</tr>";
+								}
+							echo "</table>";
+			break;
+		}
 	}
 	function show_news($student_id) {
 		include('db/pdo.php');
